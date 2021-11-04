@@ -7,36 +7,12 @@ import List from "./components/List";
 import axios from "axios";
 import UserItem from "./components/UserItem";
 import TodoItem from "./components/TodoItem";
-
-const usersURL = "https://jsonplaceholder.typicode.com/users";
-const todoURL = "https://jsonplaceholder.typicode.com/todos?_limit=10";
+import EventsExample from "./components/EventsExample";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import UsersPage from "./components/UserPage";
+import TodosPage from "./components/TodosPage";
 
 function App() {
-    const [users, setUsers] = useState<IUser[]>([]);
-    const [todos, setTodos] = useState<ITodo[]>([]);
-
-    useEffect(() => {
-        loadUsers();
-        loadTodoes();
-    }, []);
-
-    async function loadUsers() {
-        try {
-            const resp = await axios.get<IUser[]>(usersURL);
-            setUsers(resp.data);
-        } catch (error) {
-            console.log(error);
-        }
-    }
-
-    async function loadTodoes() {
-        try {
-            const resp = await axios.get<ITodo[]>(todoURL);
-            setTodos(resp.data);
-        } catch (error) {
-            console.log(error);
-        }
-    }
     // const users: IUser[] = [
     //     {
     //         id: 1,
@@ -64,18 +40,13 @@ function App() {
             >
                 <div>text here</div>
             </Card>
-            <List
-                items={users}
-                renderItem={(user: IUser) => (
-                    <UserItem key={user.id} user={user} />
-                )}
-            />
-            <List
-                items={todos}
-                renderItem={(todo: ITodo) => (
-                    <TodoItem todo={todo} key={todo.id} />
-                )}
-            />
+            <EventsExample />
+            <Router>
+                <Routes>
+                    <Route path="/users" element={<UsersPage />} />
+                    <Route path="/todos" element={<TodosPage />} />
+                </Routes>
+            </Router>
         </div>
     );
 }
