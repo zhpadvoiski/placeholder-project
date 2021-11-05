@@ -3,11 +3,13 @@ import { ITodo } from "../types/types";
 
 interface TodoItemProps {
     todo: ITodo;
+    onClick: (todo: ITodo) => void;
 }
 
-const UserItem: FC<TodoItemProps> = ({ todo }) => {
+const UserItem: FC<TodoItemProps> = ({ todo, onClick }) => {
     return (
         <div
+            onClick={() => onClick(todo)}
             style={{
                 padding: 15,
                 border: "1px solid gray",
